@@ -508,11 +508,14 @@ vim /etc/my.cnf
 bind-address=0.0.0.0
 port=3306
 user=mysql
-datadir=/mysql/data
+basedir=/usr/local/mysql
+datadir=/usr/local/mysql/data
 socket=/tmp/mysql.sock
 #character config
 character_set_server=utf8mb4
 symbolic-links=0
+log-error=/var/log/mysqld.log
+pid-file=/usr/local/mysql/data/mysqld.pid
 
 #4.测试启动mysql
 /usr/local/mysql/support-files/mysql.server start
