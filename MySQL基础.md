@@ -162,6 +162,8 @@
 
 解决不了的问题，有闲暇时间还是看官网文档！
 
+书籍:books: 数据库原理与技术
+
 # MySQL常用命令
 
 ## MySQL使用
@@ -285,7 +287,7 @@ from tb_name
 # WITH ROLLUP是可选语法，表示是否对分类聚合后的结果进行在汇总。
 # HAVING关键字表示对分类后的结果在进行条件的过滤。
 #注意：having是对聚合后的记过进行条件的过滤，where是在聚合之前就对记录进行过滤。
-#如果逻辑允许，我们尽可能用where先过滤记录，之后再根据螺距看是否用having再过滤。
+#如果逻辑允许，我们尽可能用where先过滤记录，之后再根据逻辑看是否用having再过滤。
 
 # with rollup表示对聚合后的结果求总数
 select deptno,count(1) number from emp group by deptno with rollup;
@@ -404,7 +406,122 @@ select @@sql_mode;
 show variables like '%mode%';
 ```
 
+# 数据库原理与技术（新增章节）2020-10
 
+## 基本概念
+
+数据库（DB）：是按照一定结构组织并长期存储在计算机内的、可共享的大量数据的有机集合。
+
+解释：
+
+1）数据库中的数据是按照一定的结构**数据模型**来进行组织的，即数据间有一定的联系以及数据有语义解释。
+
+数据模型：数据库系统的核心和基础，是关于描述数据与数据之间的联系、数据的语义、一致性约束的概念性工具的集合。
+
+数据模型的分类：
+
+* 三种基本数据模型：层次模型、**关系模型**（重点掌握）、网状模型。
+* 面向对象数据模型
+* 谓词模型（逻辑模型）
+* XML数据模型
+* 非SQL数据模型
+* 扩充的数据模型
+
+数据模型通常是由：**数据结构、数据操作和完整性约束**组成。
+
+* 数据结构：系统静态特征的描述，描述对象包含的数据类型、内容、性质和数据之间的相互关系。
+* 数据操作：系统动态特征的描述，是对数据库各种对象实例的操作。
+* 完整性约束：定义了给定数据模型中数据及联系所具有的制约和依存关系。
+
+数据库管理系统（DBMS）：管理和维护数据库的**系统软件**，是数据库和用户之间的一个接口。
+
+数据库系统（DBS）：实现有组织地、动态地存储大量关联数据、方便多用户访问的计算机软件、硬件和人组成的系统。
+
+> 计算机系统中引入数据库技术后形成数据库系统，也可以说数据库系统是具有管理数据库功能的计算机系统。
+
+关系：DBS=计算机系统（硬件、软件平台、人）+ DBMS + DB
+
+![](https://gitee.com/git_wjx/picture_bed/raw/master/20201015132230.png)
+
+<div align="center"><font color="gray">DB、DBMS、DBS之间的关系
+## 关系数据库
+
+关系模型数据结构：行和列组成的二维表结构。
+
+**1.笛卡尔积**（数据库）
+
+笛卡尔积是在域上的一种运算。域是一组具有相同数据类型的值集合。域用来表明定义属性的取值范围。
+
+给定一组域D<sub>1</sub>,D<sub>2</sub>,...,D<sub>n</sub>，则D<sub>1</sub>,D<sub>2</sub>,...,D<sub>n</sub>的笛卡尔积为
+
+D<sub>1</sub> X D<sub>2</sub> X ... X D<sub>n</sub> = {(d<sub>1</sub>,d<sub>2</sub>,...,d<sub>n</sub>) | d<sub>i</sub> ∈ D<sub>i</sub>, i=1,2,...,n }
+
+在数学中，两个集合X和Y的笛卡尓积（Cartesian product），又称直积，表示为X × Y，第一个对象是X的成员而第二个对象是Y的所有可能有序对的其中一个成员。
+
+**简单说就是两集合中，每一项与另一集合中每一项的乘积。**
+
+![](https://gitee.com/git_wjx/picture_bed/raw/master/20201015132229.png)
+
+**2.关系**
+
+关系中基本术语：
+
+（1）元组与属性
+
+（2）候选键
+
+（3）主键
+
+（4）外键
+
+**3.关系的完整性约束**
+
+关系型数据库的完整性约束：实体完整性、参照完整性、用户自定义
+
+实体完整性：主键
+
+参照完整性：外键
+
+用户自定义：字段非空、取值范围要求
+
+## 关系代数
+
+​	关系代数是一种抽象语言，它通过对关系的运算来表达查询。关系代数以关系为运算对象，通过对关系进行“组合”或“分割”，得到所需的数据集合—一个新的关系。
+
+关系代数可分为：
+
+1）集合运算（并交差、广义笛卡尔积）
+
+2）关系运算（投影、选择、连接和除运算）
+
+3）扩充的关系运算（广义投影、外连接、半连接、聚集等）
+
+:bookmark::new: <font color="green">2020-10-15 未完待续</font>
+
+# 查询
+
+SQL写法顺序和执行顺序
+
+```
+写法顺序：select--from--where--group by--having--order by 
+执行顺序：from--where--group by [having]--select--order by
+就是select要放后面，如果有order by，则order by放最后，因为order by 是对结果进行排序
+```
+
+**用GROUP BY关键字分组查询**
+
+通过GROUP BY子句可以将数据划分到不同的组中，实现对记录进行分组查询。在查询时，**所查询的列必须包含在分组中**。
+
+执行如下sql,发现能正常执行,而且groupby后默认取每组第一条数据。
+
+![](https://gitee.com/git_wjx/picture_bed/raw/master/20201015144624.png)
+
+当同时含有where子句、group by 子句 、having子句及聚集函数时，执行顺序如下：
+--执行where子句查找符合条件的数据；
+--使用group by 子句对数据进行分组；对group by 子句形成的组运行聚集函数计算每一组的值；最后用having 子句去掉不符合条件的组。
+--having 子句中的每一个元素也必须出现在select列表中。有些数据库例外，如oracle.
+--having子句和where子句都可以用来设定限制条件以使查询结果满足一定的条件限制。
+--having子句限制的是组，而不是行。where子句中不能使用聚集函数，而having子句中可以。
 
 # 第一部分 基础篇
 
@@ -490,8 +607,10 @@ wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.26-linux-glibc2.12-
 #解压缩 移动 重命名文件或者建立软链接
 #解压缩
 tar -zxvf mysql-5.7.26-linux-glibc2.12-x86_64.tar.gz
-#移动重命名
-mv mysql-5.7.26-linux-glibc2.12-x86_64.tar.gz /usr/local/mysql
+#将解压缩后的文件重命名
+cp|mv mysql-5.7.26-linux-glibc2.12-x86_64 mysql
+#移动位置
+mv mysql /usr/local/
 #创建mysql数据目录并给予mysql读写权限
 mkdir /usr/local/mysql/data
 chown -R mysql:mysql /usr/local/mysql
@@ -501,24 +620,38 @@ chmod -R 755 /usr/local/mysql
 #3.安装 配置
 #编译安装mysql /usr/local/mysql/bin目录下执行！！！
 ./mysqld --initialize --user=mysql --datadir=/usr/local/mysql/data --basedir=/usr/local/mysql
+# 安装过程中如果出现了libaio.so.1相关错误，可能是该依赖没有安装，需要手动安装
+bin/mysqld: error while loading shared libraries: libaio.so.1: cannot open shared object file: No such file or directory
+解决方法：yum install -y libaio  //安装后在初始化就OK了）
+
 #编辑配置文件my.cnf
 vim /etc/my.cnf
 #添加 注：[mysqld]不要省略
 [mysqld]
+basedir=/usr/local/mysql
+datadir=/usr/local/mysql/data
 bind-address=0.0.0.0
 port=3306
 user=mysql
-basedir=/usr/local/mysql
-datadir=/usr/local/mysql/data
 socket=/tmp/mysql.sock
 #character config
 character_set_server=utf8mb4
 symbolic-links=0
-log-error=/var/log/mysqld.log
-pid-file=/usr/local/mysql/data/mysqld.pid
 
 #4.测试启动mysql
 /usr/local/mysql/support-files/mysql.server start
+# 启动报错，没有该文件夹或文件
+# 解决：创建改文件，并赋予mysql权限
+/usr/local/mysql/support-files/mysql.server start
+Starting MySQL.2020-10-03T02:23:26.745432Z mysqld_safe error: log-error set to '/var/log/mariadb/mariadb.log', however file don't exists. Create writable for user 'mysql'.
+The server quit without updating PID file (/usr/local/mysql[FAILED]2zehjjhi300kynwdk13iz.pid).
+
+[root@iz2zehjjhi300kynwdk13iz mysql]# mkdir /var/log/mariadb
+[root@iz2zehjjhi300kynwdk13iz mysql]# touch /var/log/mariadb/mariadb.log
+[root@iz2zehjjhi300kynwdk13iz mysql]# chown -R mysql:mysql /var/log/mariadb/
+# 重启
+[root@iz2zehjjhi300kynwdk13iz mysql]# /usr/local/mysql/support-files/mysql.server start
+
 #添加软链接，重启mysql服务
 ln -s /usr/local/mysql/support-files/mysql.server /etc/init.d/mysql 
 ln -s /usr/local/mysql/bin/mysql /usr/bin/mysql
