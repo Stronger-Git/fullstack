@@ -443,8 +443,8 @@ show variables like '%mode%';
 
 ![](https://gitee.com/git_wjx/picture_bed/raw/master/20201015132230.png)
 
-<div align="center"><font color="gray">DB、DBMS、DBS之间的关系
-## 关系数据库
+<div align="center"><font color="gray">DB、DBMS、DBS之间的关系</font></div>
+
 
 关系模型数据结构：行和列组成的二维表结构。
 
